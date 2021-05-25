@@ -20,25 +20,31 @@ def plot_candlestick(data: pandas.DataFrame):
 
     fig.show()
 
+def get_data_filename(stock):
+    return "data/{}".format(stock)
+
+def download_stock_data(stocks, start_time_str):
+    now = datetime.now()
+    now_str = str(now.year) + '-' + str(now.month) + '-' + str(now.day)
+
+    for st in stocks:
+        # Get the data for the stock Apple by specifying the stock ticker, start date, and end date
+        data = yf.download(st, start_time_str, now_str)
+        
+        file_name = get_data_filename(st)
+        data.to_csv(file_name)
+        #print(data)
+        
+    # TODO: Store/Get the latest retrieval time in a separate json file
+
+
 
 with open('input_stocks') as f:
     input_stocks = [line.rstrip() for line in f]
 
+download_stock_data(input_stocks, '2020-01-01')
+
 for st in input_stocks:
-
-    now = datetime.now()
-    now_str = str(now.year) + '-' + str(now.month) + '-' + str(now.day)
-    start_str = '2020-01-01'
-
-    # Get the data for the stock Apple by specifying the stock ticker, start date, and end date
-    data = yf.download(st, start_str, now_str)
-
-    print(data)
-    #data.append
-
-    file_name = "data/{}".format(st)
-    data.to_csv(file_name)
-
     data2 = pandas.read_csv(file_name)
 
     plot_candlestick(data2)
