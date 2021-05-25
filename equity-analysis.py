@@ -4,6 +4,7 @@ import plotly.graph_objects as go
 from datetime import datetime
 import pandas
 import json
+import random
 
 def plot_candlestick(data: pandas.DataFrame):
     fig = go.Figure(data=[go.Candlestick(
@@ -49,17 +50,33 @@ def download_stock_data(stocks):
     with open("data/retr_dates.json", "w") as f:
         f.write(json.dumps(retr_dates))
 
+def get_moving_average(data):
+    return random.random()
+
+def assign_points(stocks):
+    stock_points_pairs = []
+    for st in stocks:
+        data = pandas.read_csv(get_data_filename(st))
+        stock_points_pairs.append((st, get_moving_average(data)))
+    return stock_points_pairs
+
 
 with open('input_stocks') as f:
     input_stocks = [line.rstrip() for line in f]
 
 download_stock_data(input_stocks)
 
-for st in input_stocks:
-    file_name = get_data_filename(st)
-    data2 = pandas.read_csv(file_name)
+points = assign_points(input_stocks)
+points.sort(key=lambda a: -a[1])
+print(points)
 
-    plot_candlestick(data2)
+#for st in input_stocks:
+#    file_name = get_data_filename(st)
+#    data2 = pandas.read_csv(file_name)
+#    plot_candlestick(data2)
 
+# TODO:
+# Read moving average from plt
+# Find a valuation strategy
 
 # https://towardsdatascience.com/free-stock-data-for-python-using-yahoo-finance-api-9dafd96cad2e
