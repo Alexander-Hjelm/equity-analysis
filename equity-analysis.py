@@ -1,4 +1,3 @@
-# Import yfinance
 import matplotlib.pyplot as plt
 import yfinance as yf  
 import plotly.graph_objects as go
@@ -12,13 +11,6 @@ def plot_candlestick(data: pandas.DataFrame):
     high=data.High,
     low=data.Low,
     close=data.Close)])
-
-    #data.Close.plot()
-    #data.Open.plot()
-    #data.High.plot()
-    #data.Low.plot()
-    #plt.show()
-
     fig.show()
 
 def get_data_filename(stock):
@@ -46,8 +38,6 @@ def download_stock_data(stocks):
         data2 = pandas.read_csv(get_data_filename(st))
         data = data.append(data2)
 
-
-
         # Save to file
         file_name = get_data_filename(st)
         data.to_csv(file_name)
@@ -60,7 +50,6 @@ def download_stock_data(stocks):
         f.write(json.dumps(retr_dates))
 
 
-
 with open('input_stocks') as f:
     input_stocks = [line.rstrip() for line in f]
 
@@ -71,10 +60,6 @@ for st in input_stocks:
     data2 = pandas.read_csv(file_name)
 
     plot_candlestick(data2)
-
-    #f = open(", "a")
-    #f.write(data)
-    #f.close()
 
 
 # https://towardsdatascience.com/free-stock-data-for-python-using-yahoo-finance-api-9dafd96cad2e
